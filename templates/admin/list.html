@@ -9,9 +9,9 @@
             <div class="container-fluid">
 
                 <div class="overview-wrap">
-                    <h2 class="title-1">Kafedra List</h2>
-                    <a class="au-btn au-btn-icon au-btn--blue" href="{% url 'kafedra_create' %}">
-                        <i class="zmdi zmdi-plus"></i>Add Kafedra
+                    <h2 class="title-1">User Admin List</h2>
+                    <a class="au-btn au-btn-icon au-btn--blue" href="{% url 'admin_create' %}">
+                        <i class="zmdi zmdi-plus"></i> Add User
                     </a>
                 </div>
                 <br>
@@ -21,30 +21,36 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Kafedra Name</th>
-                                <th>Faculty Name</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Password</th>
+                                <th>Role</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for t in kafedras %}
+                            {% for t in user %}
                                 <tr>
                                     <td>{{ t.id }}</td>
-                                    <td>{{ t.name }}</td>
-                                    <td>{{ t.faculty.name }}</td>
+                                    <td>{{ t.full_name }}</td>
+                                    <td>{{ t.email }}</td>
+                                    <td>{{ t.password }}</td>
+                                    <td>{{ t.role }}</td>
                                     <td>
                                         <div class="table-data-feature">
-                                            <a class="item" href="{% url 'kafedra_edit' pk=t.id %}" title="Edit">
+                                            <a class="item" href="{% url 'admin_edit' pk=t.id %}" title="Edit">
                                                 <i class="zmdi zmdi-edit text-warning"></i>
                                             </a>
-                                            <a class="item" href="{% url 'kafedra_delete' pk=t.id %}" title="Delete">
+                                            <a class="item" href="{% url 'admin_delete' pk=t.id %}" title="Delete">
                                                 <i class="zmdi zmdi-delete text-danger"></i>
                                             </a>
                                         </div>
                                     </td>
                                 </tr>
                             {% empty %}
-                                <tr><td colspan="4" class="text-center">No kafedra found</td></tr>
+                                <tr>
+                                    <td colspan="3" class="text-center">No admin user found</td>
+                                </tr>
                             {% endfor %}
                         </tbody>
                     </table>

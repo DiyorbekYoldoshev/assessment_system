@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="page-container">
+    {% include 'userbar.html' %}
+
+    <div class="main-content">
+        <div class="section__content section__content--p30">
+            <div class="container-fluid">
+
+                <h2 class="title-1">Teacher Dashboard</h2>
+                <br>
+
+                <h4>Subjects</h4>
+                <ul>
+                    {% for subj in teacher_subjects %}
+                        <li>{{ subj.science.name }}</li>
+                    {% empty %}
+                        <li>No subjects assigned</li>
+                    {% endfor %}
+                </ul>
+
+                <h4>Students</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Student Name</th>
+                            <th>Group</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in students %}
+                        <tr>
+                            <td>{{ s.id }}</td>
+                            <td>{{ s.name }}</td>
+                            <td>{{ s.group.name }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="3">No students found</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -8,28 +8,18 @@
         <div class="section__content section__content--p30">
             <div class="container-fluid">
 
-                <div class="overview-wrap">
-                    {% if model %}
-                        <h2 class="kafedra_create">Edit Kafedra</h2>
-                    {% else %}
-                        <h2 class="kafedra_edit">Add Kafedra</h2>
-                    {% endif %}
-                </div>
+                <h2 class="title-1">Assign Role</h2>
                 <br>
 
                 <div class="card">
                     <div class="card-header">
-                        <strong>Kafedra Form</strong>
+                        <strong>User:</strong> {{ user.full_name }} ({{ user.username }})
                     </div>
                     <div class="card-body card-block">
                         <form method="post">
                             {% csrf_token %}
                             {{ form.as_p }}
-                            {% if model %}
-                                <button type="submit" class="btn btn-warning">Save</button>
-                            {% else %}
-                                <button type="submit" class="btn btn-success">Add</button>
-                            {% endif %}
+                            <button type="submit" class="btn btn-primary">Save Role</button>
                         </form>
                     </div>
                 </div>
