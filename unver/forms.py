@@ -32,14 +32,8 @@ class UserRoleForm(forms.ModelForm):
 
     class Meta:
         model = Users
-        # fields = ['role']
-        fields = "__all__"
-        widgets = {
-            'full_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control'}),
-            'role': forms.Select(attrs={'class': 'form-control'})
-        }
+        fields = ['role']
+
 
 class AdminForm(forms.ModelForm):
     class Meta:

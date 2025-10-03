@@ -33,4 +33,7 @@ urlpatterns = [
     path('teacher/<int:pk>/edit/', admin_edit_teacher, name='teacher_edit'),
     path('teacher/<int:pk>/delete/', admin_delete_teacher, name='teacher_delete'),
     path('teacher/list/', admin_list_teacher, name='teacher_list'),
+
+    # core
+    path('assign-role/<int:user_id>/', assign_role, name='assign_role'),
 ]

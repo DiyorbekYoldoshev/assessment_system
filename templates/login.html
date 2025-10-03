@@ -1,22 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-{% load static%}
+{% load static %}
 <head>
-    <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="au theme template">
-    <meta name="author" content="Hau Nguyen">
-    <meta name="keywords" content="au theme template">
-
-    <!-- Title Page-->
     <title>Login</title>
 
-        <!-- Bootstrap CSS-->
-        <link href="{% static 'vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet" media="all">
-        <!-- Main CSS-->
-        <link href="{% static 'css/theme.css' %}" rel="stylesheet" media="all">
-
+    <link href="{% static 'vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'css/theme.css' %}" rel="stylesheet" media="all">
 </head>
 
 <body class="animsition">
@@ -30,40 +21,38 @@
                                 <img src="{% static 'images/icon/logo.png' %}" alt="CoolAdmin">
                             </a>
                         </div>
-                        <div class="login-form">
 
-                            <form  method="post">
-                                {% csrf_token%}
+                        <div class="login-form">
+                            <form method="post">
+                                {% csrf_token %}
                                 <div class="form-group">
-                                    <label>username </label>
-                                    <input class="au-input au-input--full" type="username" name="username" placeholder="username">
+                                    <label>Username</label>
+                                    <input class="au-input au-input--full" type="text" name="username"
+                                           placeholder="Username" value="{{ username|default:'' }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input class="au-input au-input--full" type="password" name="password" placeholder="Password">
+                                    <input class="au-input au-input--full" type="password" name="password"
+                                           placeholder="Password">
                                 </div>
 
-                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">sign in</button>
-                            </form>
+                                {% if error %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endif %}
 
+                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Sign in</button>
+                            </form>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
-        <!-- Jquery JS-->
-        <script src="{% static 'vendor/jquery-3.2.1.min.js' %}"></script>
-        <!-- Bootstrap JS-->
-        <script src="{% static 'vendor/bootstrap-4.1/popper.min.js' %}"></script>
-        <script src="{% static 'vendor/bootstrap-4.1/bootstrap.min.js' %}"></script>
-        <!-- Vendor JS       -->
-
-        <!-- Main JS-->
-        <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'vendor/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap-4.1/popper.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap-4.1/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
-
 </html>
-<!-- end document-->
