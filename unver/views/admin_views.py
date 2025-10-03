@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login, authenticate
-from .forms import UserRoleForm, TeacherForm, FacultyForm, KafedraForm
-from .models import *
+from ..forms import UserRoleForm, TeacherForm, FacultyForm, KafedraForm
+from ..models import *
 
 # Custom login_required
 def login_required_decorator(funk):
@@ -194,30 +194,4 @@ def admin_list_teacher(request):
     return render(request, 'teacher/list.html', {'teachers': teachers})
 
 # ==================== DASHBOARDS ====================
-@login_required_decorator
-def teacher_dashboard(request):
-    teacher = get_object_or_404(Teachers, user=request.user)
-    teacher_subjects = teacher.teachersubjects_set.all()
-    student_ids = Studentgrades.objects.filter(
-        science_id__in=[sub.science.id for sub in teacher_subjects]
-    ).values_list("student_id", flat=True).distinct()
 
-    students = Students.objects.filter(id__in=student_ids)
-
-    return render(request, 'dashboard/teacher.html', {
-        "teacher": teacher,
-        "teacher_subjects": teacher_subjects,
-        "students": students
-    })
-
-@login_required_decorator
-def student_dashboard(request):
-    student = get_object_or_404(Students, user=request.user)
-    grades = Studentgrades.objects.filter(student=student)
-    attendance = Attendance.objects.filter(student=student)
-
-    return render(request, 'dashboard/student.html', {
-        "student": student,
-        "grades": grades,
-        "attendance": attendance
-    })
