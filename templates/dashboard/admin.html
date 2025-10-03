@@ -85,7 +85,7 @@
                     </div>
                 </div>
 
-                <!-- Teachers Table -->
+               <!-- Teachers Table -->
                 <div class="row">
                     <div class="col-lg-12">
                         <h2 class="title-1 m-b-25">Teachers</h2>
@@ -95,24 +95,27 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Full Name</th>
+                                        <th>Email</th>
                                         <th>Kafedra</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for t in teachers %}
+                                    {% for t in teacher %}
                                     <tr>
-                                        <td>{{ t.id }}</td>
-                                        <td>{{ t.name }}</td>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ t.user.full_name }}</td>
+                                        <td>{{ t.user.email }}</td>
                                         <td>{{ t.kafedra.name }}</td>
                                     </tr>
                                     {% empty %}
-                                    <tr><td colspan="3">No teachers available</td></tr>
+                                    <tr><td colspan="4">No teachers available</td></tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+
 
                 <!-- Groups Table -->
                 <div class="row">

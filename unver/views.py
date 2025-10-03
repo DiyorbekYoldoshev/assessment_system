@@ -14,7 +14,7 @@ def login_page(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request=request, username=username, password=password)
-        if user is not None:
+        if user:
             login(request, user)
             return redirect('admin_dashboard')
     return render(request, 'login.html')
@@ -25,7 +25,7 @@ def logout_page(request):
     return redirect('login_page')
 
 # ==================== ADMIN DASHBOARD ====================
-@login_required_decorator
+
 def admin_dashboard(request):
     faculties = Faculty.objects.all()
     kafedras = Kafedra.objects.all()
@@ -93,7 +93,7 @@ def admin_faculty_list(request):
 @login_required_decorator
 def admin_kafedra_create(request):
     model = Kafedra()
-    form = KafedraForm(request.POST or None, instance=model)  # alohida KafedraForm bo‘lsa shuni qo‘ying
+    form = KafedraForm(request.POST or None, instance=model)
     if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect('kafedra_list')
@@ -102,7 +102,7 @@ def admin_kafedra_create(request):
 @login_required_decorator
 def admin_kafedra_edit(request, pk):
     model = get_object_or_404(Kafedra, pk=pk)
-    form = KafedraForm(request.POST or None, instance=model)  # KafedraForm bo‘lsa shuni qo‘ying
+    form = KafedraForm(request.POST or None, instance=model)
     if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect('kafedra_list')
