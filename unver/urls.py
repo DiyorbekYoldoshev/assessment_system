@@ -9,7 +9,7 @@ urlpatterns = [
     # Dashboard
     path('', admin_dashboard, name='admin_dashboard'),
     path('teacher/dashboard/', teacher_dashboard, name='teacher_dashboard'),
-    path('student/dashboard/', student_dashboard, name='student_dashboard'),
+    path('student/list/', student_dashboard, name='student_dashboard'),
 
     # Faculties
     path('faculty/create/',admin_faculty_create,name='faculty_create'),

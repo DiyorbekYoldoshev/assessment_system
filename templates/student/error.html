@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <div class="alert alert-danger">
+    <h3>Xatolik</h3>
+    <p>{{ msg|default:"Siz bu sahifaga kirish huquqiga ega emassiz." }}</p>
+    <a href="{% url 'login_page' %}" class="btn btn-primary">Tizimga qaytish</a>
+  </div>
+</div>
+{% endblock %}

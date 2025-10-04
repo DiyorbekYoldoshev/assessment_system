@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <div class="alert alert-warning">
+    <h3>Student yozuvi topilmadi</h3>
+    <p>Foydalanuvchi <strong>{{ user.full_name|default:user }}</strong> uchun <code>Students</code> jadvalida yozuv topilmadi.</p>
+    <p>Iltimos, administratorga murojaat qiling yoki admin paneldan yangi student yozuvini yarating.</p>
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Admin panel</a>
+  </div>
+</div>
+{% endblock %}

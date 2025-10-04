@@ -5,8 +5,56 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+class Roles(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'Roles'
+        managed = True
+
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, username, password=None, full_name=None, role=None):
+        if not username:
+            raise ValueError("Username bo'lishi shart")
+        user = self.model(username=username, full_name=full_name, role=role)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, password=None, full_name="Admin"):
+        user = self.create_user(username=username, password=password, full_name=full_name)
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
+
+
+class Users(AbstractBaseUser, PermissionsMixin):
+    username = models.CharField(max_length=150, unique=True)
+    full_name = models.CharField(max_length=255)
+    email = models.EmailField(null=True, blank=True)  # ixtiyoriy
+    role = models.ForeignKey('Roles', on_delete=models.SET_NULL, null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(auto_now_add=True)
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['full_name']
+
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.username
+
+    class Meta:
+        db_table = 'Users'
+        managed = True
 
 
 class Attendance(models.Model):
@@ -67,17 +115,6 @@ class Kafedra(models.Model):
         managed = False
         db_table = 'Kafedra'
 
-
-
-class Roles(models.Model):
-    name = models.TextField(unique=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        managed = False
-        db_table = 'Roles'
 
 
 class Sciences(models.Model):
@@ -154,14 +191,3 @@ class Teachers(models.Model):
         db_table = 'Teachers'
 
 
-class Users(models.Model):
-    full_name = models.TextField(db_column="full_name")
-    email = models.TextField(unique=True)
-    password = models.TextField()
-    role = models.ForeignKey(Roles, models.DO_NOTHING)
-
-    def __str__(self):
-        return self.full_name
-    class Meta:
-        managed = False
-        db_table = 'Users'

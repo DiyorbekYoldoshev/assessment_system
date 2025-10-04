@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 LOGIN_URL = 'login_page'
 
+# AUTH_USER_MODEL = 'unver.Users'
 
 # Application definition
 
