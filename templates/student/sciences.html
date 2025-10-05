@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="page-container">
+    {% include 'userbar.html' %}
+
+    <div class="main-content">
+        <div class="section__content section__content--p30">
+            <div class="container-fluid">
+
+                <div class="overview-wrap">
+                    <h2 class="title-1">Sciences List</h2>
+                </div>
+                <br>
+
+                <div class="table-responsive m-b-40">
+                    <table class="table table-borderless table-data3">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Sciences Name</th>
+                                <th>Kafedra</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for t in sciences %}
+                                <tr>
+                                    <td>{{ t.id }}</td>
+                                    <td>{{ t.name }}</td>
+                                    <td>{{ t.kafedra }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="3" class="text-center">No sciences found</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

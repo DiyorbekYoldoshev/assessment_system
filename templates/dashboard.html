@@ -1,0 +1,30 @@
+<ul class="navbar-nav sidebar">
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'student_dashboard' %}">
+            <i class="fas fa-home"></i> Dashboard
+        </a>
+    </li>
+
+    {% if request.user.role.name == 'admin' %}
+        <li class="nav-item">
+            <a class="nav-link" href="#">Admin</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Faculties</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Kafedras</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Teacher</a>
+        </li>
+    {% elif request.user.role.name == 'teacher' %}
+        <li class="nav-item">
+            <a class="nav-link" href="#">My Subjects</a>
+        </li>
+    {% elif request.user.role.name == 'student' %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'student_sciences' %}">Sciences</a>
+        </li>
+    {% endif %}
+</ul>

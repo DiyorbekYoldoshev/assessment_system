@@ -8,8 +8,7 @@ urlpatterns = [
 
     # Dashboard
     path('', admin_dashboard, name='admin_dashboard'),
-    path('teacher/dashboard/', teacher_dashboard, name='teacher_dashboard'),
-    path('student/list/', student_dashboard, name='student_dashboard'),
+    path('teacher/', teacher_dashboard, name='teacher_dashboard'),
 
     # Faculties
     path('faculty/create/',admin_faculty_create,name='faculty_create'),
@@ -37,3 +36,4 @@ urlpatterns = [
     # core
     path('assign-role/<int:user_id>/', assign_role, name='assign_role'),
 ]
+
