@@ -21,4 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashboard/', include('unver.urls')),
     path('student/dashboard/', include('unver.student_urls')),
+    # path('teacher/dashboard/', include('unver.teacher_urls')),
+    # path('employee/dashboard/', include('unver.employee_urls')),
 ]

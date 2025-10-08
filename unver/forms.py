@@ -45,3 +45,13 @@ class AdminForm(forms.ModelForm):
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),
             'role': forms.Select(attrs={'class': 'form-control'})
         }
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = Students
+        fields = "__all__"
+        widgets = {
+            'user': forms.Select(attrs={'class':'form-control'}),
+            'group':forms.Select(attrs={'class':'form-control'}),
+            'admission_year':forms.NumberInput(attrs={'class':'form-control'}),
+        }

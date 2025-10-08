@@ -1,15 +1,15 @@
-{% extends 'base.html' %}
+{% extends 'student/base.html' %}
 {% load static %}
 {% block content %}
 <div class="page-container">
-    {% include 'userbar.html' %}
+    {% include 'student/userbar.html' %}
 
     <div class="main-content">
         <div class="section__content section__content--p30">
             <div class="container-fluid">
 
                 <div class="overview-wrap">
-                    <h2 class="title-1">Sciences List</h2>
+                    <h2 class="title-1">My Sciences</h2>
                 </div>
                 <br>
 
@@ -18,7 +18,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Sciences Name</th>
+                                <th>Science Name</th>
                                 <th>Kafedra</th>
                             </tr>
                         </thead>
@@ -37,6 +37,7 @@
                         </tbody>
                     </table>
                 </div>
+
             </div>
         </div>
     </div>

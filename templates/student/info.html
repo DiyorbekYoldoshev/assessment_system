@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="page-container">
+    {% include 'userbar.html' %}
+
+    <div class="main-content">
+        <div class="section__content section__content--p30">
+            <div class="container-fluid">
+
+                <!-- Page header -->
+                <div class="overview-wrap d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="title-1">My Profile</h2>
+                    <a href="{% url 'student_dashboard' %}" class="au-btn au-btn-icon au-btn--blue">
+                        <i class="zmdi zmdi-arrow-left"></i> Back to Dashboard
+                    </a>
+                </div>
+
+                <div class="row">
+                    <!-- Left column: profile card -->
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <img src="{% static 'images/img.png' %}" alt="{{ user.username }}" class="rounded-circle mb-3" style="width:120px;height:120px;object-fit:cover;">
+                                <h4 class="mb-0">{{ user.full_name|default:user.username }}</h4>
+                                <p class="text-muted mb-2">{{ user.username }}</p>
+                                <p class="mb-2"><i class="zmdi zmdi-email mr-2"></i> {{ user.email|default:"—" }}</p>
+
+                                <div class="d-flex justify-content-center mt-3">
+                                    <a href="{% url 'logout_page' %}" class="btn btn-outline-danger btn-sm mr-2">
+                                        <i class="zmdi zmdi-power"></i> Logout
+                                    </a>
+                                    <!-- Agar kerak bo'lsa profili tahrirlash -->
+                                    <a href="#" class="btn btn-outline-primary btn-sm">
+                                        <i class="zmdi zmdi-account"></i> Edit Profile
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick info -->
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h6 class="mb-3">Quick Info</h6>
+                                <ul class="list-unstyled">
+                                    <li><strong>Faculty:</strong> {{ faculty.name|default:"—" }}</li>
+                                    <li><strong>Kafedra:</strong> {{ kafedra.name|default:"—" }}</li>
+                                    <li><strong>Group:</strong> {{ group.name|default:"—" }}</li>
+                                    <li><strong>Admission Year:</strong> {{ student.admission_year|default:"—" }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right column: stats and tables -->
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <!-- Stat cards -->
+                            <div class="col-md-6 mb-3">
+                                <div class="overview-item overview-item--c1 p-3">
+                                    <div class="overview__inner">
+                                        <div class="overview-box clearfix">
+                                            <div class="text">
+                                                <h3 class="m-0">{{ grades|length if grades is not None else "—" }}</h3>
+                                                <span>Subjects (Grades)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="overview-item overview-item--c2 p-3">
+                                    <div class="overview__inner">
+                                        <div class="overview-box clearfix">
+                                            <div class="text">
+                                                <h3 class="m-0">{{ attendance|length if attendance is not None else "—" }}</h3>
+                                                <span>Attendance Records</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Grades table (agar mavjud bo'lsa) -->
+                        {% if grades %}
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <strong>Grades</strong>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-striped mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Subject</th>
+                                                <th>Semester</th>
+                                                <th>Grade</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for g in grades %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ g.science.name }}</td>
+                                                <td>{{ g.semester.name }}</td>
+                                                <td>
+                                                    {% if g.grade is not None %}
+                                                        <span class="badge badge-success">{{ g.grade }}</span>
+                                                    {% else %}
+                                                        <span class="badge badge-secondary">N/A</span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Attendance table (agar mavjud bo'lsa) -->
+                        {% if attendance %}
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <strong>Attendance</strong>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Subject</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for a in attendance %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ a.science.name }}</td>
+                                                <td>{{ a.date }}</td>
+                                                <td>
+                                                    {% if a.status|lower == 'present' or a.status == '1' %}
+                                                        <span class="badge badge-success">Present</span>
+                                                    {% elif a.status|lower == 'absent' or a.status == '0' %}
+                                                        <span class="badge badge-danger">Absent</span>
+                                                    {% else %}
+                                                        <span class="badge badge-warning">{{ a.status }}</span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Fallback: agar grades va attendance ham yo'q bo'lsa -->
+                        {% if not grades and not attendance %}
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <p class="mb-0 text-muted">Hech qanday qo'shimcha ma'lumot mavjud emas.</p>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                    </div> <!-- end right col -->
+                </div> <!-- end row -->
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

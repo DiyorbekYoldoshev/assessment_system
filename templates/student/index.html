@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="page-container">
+    {% include 'userbar.html' %}
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="section__content section__content--p30">
+            <div class="container-fluid">
+
+                <!-- PAGE HEADER -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="overview-wrap">
+                            <h2 class="title-1">Welcome to CoolAdmin Dashboard</h2>
+                            <p class="text-muted">Manage and monitor all system activities in one place.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OVERVIEW CARDS -->
+                <div class="row m-t-25">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="overview-item overview-item--c1">
+                            <div class="overview__inner">
+                                <div class="overview-box clearfix">
+                                    <div class="icon">
+                                        <i class="fa fa-bank"></i>
+                                    </div>
+                                    <div class="text">
+                                        <h2>{{ counts.faculties|default:0 }}</h2>
+                                        <span>Faculties</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="overview-item overview-item--c2">
+                            <div class="overview__inner">
+                                <div class="overview-box clearfix">
+                                    <div class="icon">
+                                        <i class="fa fa-book"></i>
+                                    </div>
+                                    <div class="text">
+                                        <h2>{{ counts.subjects|default:0 }}</h2>
+                                        <span>Subjects</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="overview-item overview-item--c3">
+                            <div class="overview__inner">
+                                <div class="overview-box clearfix">
+                                    <div class="icon">
+                                        <i class="zmdi zmdi-account-o"></i>
+                                    </div>
+                                    <div class="text">
+                                        <h2>{{ counts.teachers|default:0 }}</h2>
+                                        <span>Teachers</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="overview-item overview-item--c4">
+                            <div class="overview__inner">
+                                <div class="overview-box clearfix">
+                                    <div class="icon">
+                                        <i class="zmdi zmdi-accounts-list"></i>
+                                    </div>
+                                    <div class="text">
+                                        <h2>{{ counts.students|default:0 }}</h2>
+                                        <span>Students</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STATISTICS CHARTS -->
+                <div class="row mt-5">
+                    <div class="col-lg-6">
+                        <div class="au-card m-b-30">
+                            <div class="au-card-inner">
+                                <h3 class="title-2 m-b-40">Faculties Overview</h3>
+                                <canvas id="barChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="au-card m-b-30">
+                            <div class="au-card-inner">
+                                <h3 class="title-2 m-b-40">Student Distribution</h3>
+                                <canvas id="pieChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FOOTER -->
+                <div class="row">
+                    <div class="col-md-12 text-center mt-4">
+                        <p class="text-muted">© {{ now|date:"Y" }} CoolAdmin | All rights reserved.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block javascript %}
+<script>
+(function($){
+  "use strict";
+
+  // === Bar Chart ===
+  var ctxBar = document.getElementById("barChart");
+  if (ctxBar) {
+    ctxBar.height = 150;
+    new Chart(ctxBar, {
+      type: 'bar',
+      data: {
+        labels: ["Faculties", "Departments", "Subjects", "Teachers", "Students"],
+        datasets: [{
+          label: "Count",
+          data: [
+            {{ counts.faculties|default:0 }},
+            {{ counts.kafedras|default:0 }},
+            {{ counts.subjects|default:0 }},
+            {{ counts.teachers|default:0 }},
+            {{ counts.students|default:0 }}
+          ],
+          backgroundColor: "rgba(0, 123, 255, 0.6)",
+          borderColor: "rgba(0, 123, 255, 1)",
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        legend: { display: false },
+        scales: {
+          yAxes: [{ ticks: { beginAtZero: true } }]
+        }
+      }
+    });
+  }
+
+  // === Pie Chart ===
+  var ctxPie = document.getElementById("pieChart");
+  if (ctxPie) {
+    ctxPie.height = 200;
+    new Chart(ctxPie, {
+      type: 'pie',
+      data: {
+        labels: ["Teachers", "Students", "Subjects"],
+        datasets: [{
+          data: [
+            {{ counts.teachers|default:0 }},
+            {{ counts.students|default:0 }},
+            {{ counts.subjects|default:0 }}
+          ],
+          backgroundColor: [
+            "rgba(0, 123, 255,0.9)",
+            "rgba(0, 123, 255,0.5)",
+            "rgba(0,0,0,0.07)"
+          ],
+          hoverBackgroundColor: [
+            "rgba(0, 123, 255,0.9)",
+            "rgba(0, 123, 255,0.7)",
+            "rgba(0,0,0,0.07)"
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        legend: { position: 'top' }
+      }
+    });
+  }
+
+})(jQuery);
+</script>
+{% endblock %}
+
+{% endblock %}

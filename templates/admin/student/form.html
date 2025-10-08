@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'admin/base.html' %}
 {% load static %}
 {% block content %}
 <div class="page-container">
-    {% include 'userbar.html' %}
+    {% include 'admin/userbar.html' %}
 
     <div class="main-content">
         <div class="section__content section__content--p30">
@@ -10,16 +10,16 @@
 
                 <div class="overview-wrap">
                     {% if model %}
-                        <h2 class="admin_create">Edit Teacher</h2>
+                        <h2 class="admin_create">Edit Student</h2>
                     {% else %}
-                        <h2 class="admin_edit">Add Teacher</h2>
+                        <h2 class="admin_edit">Add Student</h2>
                     {% endif %}
                 </div>
                 <br>
 
                 <div class="card">
                     <div class="card-header">
-                        <strong>Teacher Form</strong>
+                        <strong>Student Form</strong>
                     </div>
                     <div class="card-body card-block">
                         <form method="post">

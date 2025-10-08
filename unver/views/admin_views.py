@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import check_password
 from ..models import *
-from ..forms import UserRoleForm, TeacherForm, FacultyForm, KafedraForm, AdminForm
+from ..forms import UserRoleForm, TeacherForm, FacultyForm, KafedraForm, AdminForm, StudentForm
 
 
 # def login_required_decorator(view_func):
@@ -103,16 +103,45 @@ def logout_page(request):
     return redirect("login_page")
 
 
+# def login_page(request):
+#     if request.POST:
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+#         user = authenticate(request, password=password, username=username)
+#         if user is not None:
+#             login(request, user)
+#             return redirect("admin_list")
+#
+#     return render(request, 'login.html')
+
+from django.contrib import messages
+
 def login_page(request):
-    if request.POST:
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, password=password, username=username)
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
-            return redirect("admin_list")
+            role = getattr(user, 'role', None)
 
-    return render(request, 'login.html')
+            if role and role.name == 'admin':
+                return redirect('admin_dashboard')
+            elif role and role.name == 'teacher':
+                return redirect('teacher_dashboard')
+            elif role and role.name == 'student':
+                return redirect('student_dashboard')
+            elif role and role.name == 'employee':
+                return redirect('employee_dashboard')
+            else:
+                messages.error(request, "No role assigned to this account.")
+                return redirect('login_page')
+        else:
+            messages.error(request, "Invalid username or password.")
+            return redirect('login_page')
+
+    return render(request, "admin/login.html")
 
 # ==================== ADMIN DASHBOARD ====================
 # @role_required(['admin'])
@@ -268,7 +297,7 @@ def admin_create_teacher(request):
     if request.method == "POST" and form.is_valid():
         form.save()
         return redirect('teacher_list')
-    return render(request, 'teacher/form.html', {"form": form})
+    return render(request, 'admin/teacher/form.html', {"form": form})
 
 
 # @role_required(['admin'])
@@ -278,7 +307,7 @@ def admin_edit_teacher(request, pk):
     if request.method == "POST" and form.is_valid():
         form.save()
         return redirect('teacher_list')
-    return render(request, 'teacher/form.html', {"form": form, "model": model})
+    return render(request, 'admin/teacher/form.html', {"form": form, "model": model})
 
 
 # @role_required(['admin'])
@@ -291,5 +320,39 @@ def admin_delete_teacher(request, pk):
 # @role_required(['admin'])
 def admin_list_teacher(request):
     teachers = Teachers.objects.select_related('user', 'kafedra')
-    return render(request, 'teacher/list.html', {'teachers': teachers})
+    return render(request, 'admin/teacher/list.html', {'teachers': teachers})
+
+def admin_create_student(request):
+    model = Students()
+    form = StudentForm(request.POST or None,instance=model or None)
+    if request.POST and form.is_valid():
+        form.save()
+        return redirect('student_list')
+    ctx = {
+        'form':form,
+    }
+    return render(request,'admin/student/form.html',ctx)
+
+def admin_edit_student(request,pk):
+    model = Students.objects.get(pk=pk)
+    form = StudentForm(request.POST or None, instance=model or None)
+    if request.POST and form.is_valid():
+        form.save()
+        return redirect('student_list')
+
+    ctx = {
+        'model':model,
+        'form':form
+    }
+    return render(request,'admin/student/form.html',ctx)
+
+def admin_delete_student(request,pk):
+    model = Students.objects.get(pk=pk)
+    model.delete()
+    return redirect('student_list')
+
+def admin_student_list(request):
+    students = Students.objects.all()
+    return render(request,'admin/student/list.html',{'students':students})
+
 

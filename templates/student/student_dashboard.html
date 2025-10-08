@@ -1,4 +1,5 @@
 {% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,30 +16,29 @@
 <body class="animsition">
     <div class="page-wrapper">
 
-        <!-- Sidebar -->
+        <!-- SIDEBAR -->
         {% include 'student/sidebar.html' %}
 
-        <!-- PAGE CONTAINER-->
+        <!-- PAGE CONTAINER -->
         <div class="page-container">
-            <!-- HEADER DESKTOP-->
-            <header class="header-desktop">
-                <div class="section__content section__content--p30">
-                    <div class="container-fluid">
-                        <div class="header-wrap">
-                            <h2>Welcome, {{ request.user.full_name }}</h2>
-                        </div>
-                    </div>
-                </div>
-            </header>
-            <!-- HEADER DESKTOP-->
 
-            <!-- MAIN CONTENT-->
+            <!-- USERBAR -->
+            {% include 'student/userbar.html' %}
+
+            <!-- MAIN CONTENT -->
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
 
-                        <!-- Dashboard cards -->
+                        <!-- PAGE TITLE -->
+                        <div class="overview-wrap mb-4">
+                            <h2 class="title-1">Welcome, {{ request.user.get_full_name|default:request.user.username }}</h2>
+                        </div>
+
+                        <!-- DASHBOARD CARDS -->
                         <div class="row m-t-25">
+
+                            <!-- Sciences -->
                             <div class="col-sm-6 col-lg-3">
                                 <div class="overview-item overview-item--c1">
                                     <div class="overview__inner">
@@ -52,6 +52,7 @@
                                 </div>
                             </div>
 
+                            <!-- Attendances -->
                             <div class="col-sm-6 col-lg-3">
                                 <div class="overview-item overview-item--c2">
                                     <div class="overview__inner">
@@ -65,6 +66,7 @@
                                 </div>
                             </div>
 
+                            <!-- Exams -->
                             <div class="col-sm-6 col-lg-3">
                                 <div class="overview-item overview-item--c3">
                                     <div class="overview__inner">
@@ -78,146 +80,36 @@
                                 </div>
                             </div>
 
+                            <!-- Email -->
                             <div class="col-sm-6 col-lg-3">
                                 <div class="overview-item overview-item--c4">
                                     <div class="overview__inner">
                                         <div class="overview-box clearfix">
                                             <div class="text">
-                                                <h2>{{ request.user.email }}</h2>
+                                                <h2 style="font-size: 16px;">{{ request.user.email }}</h2>
                                                 <span>Email</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
-                        <!-- End Dashboard cards -->
+                        <!-- END DASHBOARD CARDS -->
 
                     </div>
                 </div>
             </div>
-            <!-- END MAIN CONTENT-->
+            <!-- END MAIN CONTENT -->
+
         </div>
-        <!-- END PAGE CONTAINER-->
+        <!-- END PAGE CONTAINER -->
     </div>
 
-    <!-- Jquery JS -->
+    <!-- JS FILES -->
     <script src="{% static 'vendor/jquery-3.2.1.min.js' %}"></script>
-    <!-- Bootstrap JS -->
+    <script src="{% static 'vendor/bootstrap-4.1/popper.min.js' %}"></script>
     <script src="{% static 'vendor/bootstrap-4.1/bootstrap.min.js' %}"></script>
-    <!-- Main JS -->
-    <script src="{% static 'js/main.js' %}"></script>
-</body>
-</html>
-
-{% load static %}
-
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Student Dashboard</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="{% static 'vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet" media="all">
-    <!-- Fontawesome -->
-    <link href="{% static 'vendor/font-awesome-5/css/fontawesome-all.min.css' %}" rel="stylesheet" media="all">
-    <!-- Theme CSS -->
-    <link href="{% static 'css/theme.css' %}" rel="stylesheet" media="all">
-</head>
-<body class="animsition">
-    <div class="page-wrapper">
-
-        <!-- Sidebar -->
-        {% include 'student/sidebar.html' %}
-
-        <!-- PAGE CONTAINER-->
-        <div class="page-container">
-            <!-- HEADER DESKTOP-->
-            <header class="header-desktop">
-                <div class="section__content section__content--p30">
-                    <div class="container-fluid">
-                        <div class="header-wrap">
-                            <h2>Welcome, {{ request.user.full_name }}</h2>
-                        </div>
-                    </div>
-                </div>
-            </header>
-            <!-- HEADER DESKTOP-->
-
-            <!-- MAIN CONTENT-->
-            <div class="main-content">
-                <div class="section__content section__content--p30">
-                    <div class="container-fluid">
-
-                        <!-- Dashboard cards -->
-                        <div class="row m-t-25">
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="overview-item overview-item--c1">
-                                    <div class="overview__inner">
-                                        <div class="overview-box clearfix">
-                                            <div class="text">
-                                                <h2>{{ sciences_count }}</h2>
-                                                <span>Sciences</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="overview-item overview-item--c2">
-                                    <div class="overview__inner">
-                                        <div class="overview-box clearfix">
-                                            <div class="text">
-                                                <h2>{{ attendance_count }}</h2>
-                                                <span>Attendances</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="overview-item overview-item--c3">
-                                    <div class="overview__inner">
-                                        <div class="overview-box clearfix">
-                                            <div class="text">
-                                                <h2>{{ exams_count }}</h2>
-                                                <span>Exams</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="overview-item overview-item--c4">
-                                    <div class="overview__inner">
-                                        <div class="overview-box clearfix">
-                                            <div class="text">
-                                                <h2>{{ request.user.email }}</h2>
-                                                <span>Email</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Dashboard cards -->
-
-                    </div>
-                </div>
-            </div>
-            <!-- END MAIN CONTENT-->
-        </div>
-        <!-- END PAGE CONTAINER-->
-    </div>
-
-    <!-- Jquery JS -->
-    <script src="{% static 'vendor/jquery-3.2.1.min.js' %}"></script>
-    <!-- Bootstrap JS -->
-    <script src="{% static 'vendor/bootstrap-4.1/bootstrap.min.js' %}"></script>
-    <!-- Main JS -->
     <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

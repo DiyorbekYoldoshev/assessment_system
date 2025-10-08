@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from ..models import Users, Students, Studentgrades, Attendance, Sciences
 from .admin_views import login_required_decorator
 
@@ -28,7 +28,6 @@ def student_dashboard(request):
         "attendance": attendance
     })
 
-
 def student_sciences(request):
     sciences = Sciences.objects.all()
 
@@ -38,6 +37,27 @@ def student_sciences(request):
     return render(request,'student/sciences.html',ctx)
 
 
+from django.shortcuts import render, get_object_or_404
+from unver.models import Students, Groups, Faculty, Kafedra, Studentgrades, Attendance
+
+def my_info(request):
+    student = get_object_or_404(Students, user=request.user)
+    group = student.group
+    kafedra = group.kafedra
+    faculty = group.faculty
+    grades = Studentgrades.objects.filter(student=student).select_related('science', 'semester')
+    attendance = Attendance.objects.filter(student=student).select_related('science')
+
+    context = {
+        'user': request.user,
+        'student': student,
+        'group': group,
+        'kafedra': kafedra,
+        'faculty': faculty,
+        'grades': grades,
+        'attendance': attendance
+    }
+    return render(request, 'student/info.html', context)
 
 
 
