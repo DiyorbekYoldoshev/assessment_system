@@ -10,16 +10,16 @@
 
                 <div class="overview-wrap">
                     {% if model %}
-                        <h2 class="title-1">Edit Teacher</h2>
+                        <h2 class="title-1">Edit Kafedra</h2>
                     {% else %}
-                        <h2 class="title-1">Add Teacher</h2>
+                        <h2 class="title-1">Add Kafedra</h2>
                     {% endif %}
                 </div>
                 <br>
 
                 <div class="card shadow-sm border-0">
                     <div class="card-header bg-primary text-white">
-                        <strong>Teacher Form</strong>
+                        <strong>Kafedra Form</strong>
                     </div>
                     <div class="card-body card-block" style="background-color: #f8f9fa;">
                         <form method="post" class="form-horizontal">
@@ -28,11 +28,11 @@
                                 <div class="col-lg-8 offset-lg-2">
                                     {{ form.as_p }}
                                     {% if model %}
-                                        <button type="submit" class="btn btn-warning btn-block mt-3 shadow-sm">
+                                        <button type="submit" class="btn btn-warning btn-block mt-3">
                                             <i class="zmdi zmdi-check"></i> Save
                                         </button>
                                     {% else %}
-                                        <button type="submit" class="btn btn-success btn-block mt-3 shadow-sm">
+                                        <button type="submit" class="btn btn-success btn-block mt-3">
                                             <i class="zmdi zmdi-plus"></i> Add
                                         </button>
                                     {% endif %}

@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import check_password
 from ..models import *
-from ..forms import UserRoleForm, TeacherForm, FacultyForm, KafedraForm, AdminForm, StudentForm
+from ..forms import UserRoleForm, TeacherForm, FacultyForm, KafedraForm, UserForm, StudentForm, GroupForm
 
 
 # def login_required_decorator(view_func):
@@ -179,7 +179,7 @@ def admin_faculty_create(request):
     if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect('faculty_list')
-    return render(request, 'faculty/form.html', {'form': form})
+    return render(request, 'admin/faculty/form.html', {'form': form})
 
 
 # @role_required(['admin'])
@@ -189,7 +189,7 @@ def admin_faculty_edit(request, pk):
     if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect('faculty_list')
-    return render(request, 'faculty/form.html', {'model': model, 'form': form})
+    return render(request, 'admin/faculty/form.html', {'model': model, 'form': form})
 
 
 # @role_required(['admin'])
@@ -203,7 +203,7 @@ def admin_faculty_delete(request, pk):
 def admin_faculty_list(request):
     faculty = Faculty.objects.all()
     ctx = {'faculty': faculty}
-    return render(request, 'faculty/list.html', ctx)
+    return render(request, 'admin/faculty/list.html', ctx)
 
 
 # ==================== KAFEDRA ====================
@@ -214,7 +214,7 @@ def admin_kafedra_create(request):
     if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect('kafedra_list')
-    return render(request, 'kafedra/form.html', {'form': form})
+    return render(request, 'admin/kafedra/form.html', {'form': form})
 
 
 # @role_required(['admin'])
@@ -224,7 +224,7 @@ def admin_kafedra_edit(request, pk):
     if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect('kafedra_list')
-    return render(request, 'kafedra/form.html', {'form': form, 'model': model})
+    return render(request, 'admin/kafedra/form.html', {'form': form, 'model': model})
 
 
 # @role_required(['admin'])
@@ -238,14 +238,14 @@ def admin_kafedra_delete(request, pk):
 def admin_kafedra_list(request):
     kafedras = Kafedra.objects.all()
     ctx = {'kafedras': kafedras}
-    return render(request, 'kafedra/list.html', ctx)
+    return render(request, 'admin/kafedra/list.html', ctx)
 
 
 # ==================== USER MANAGEMENT ====================
 # @role_required(['admin'])
 def admin_create_user(request):
     model = Users()
-    form = AdminForm(request.POST or None, instance=model)
+    form = UserForm(request.POST or None, instance=model)
     if request.method == "POST" and form.is_valid():
         form.save()
         return redirect('admin_list')
@@ -255,7 +255,7 @@ def admin_create_user(request):
 # @role_required(['admin'])
 def admin_edit_user(request, pk):
     model = get_object_or_404(Users, pk=pk)
-    form = AdminForm(request.POST or None, instance=model)
+    form = UserForm(request.POST or None, instance=model)
     if request.method == "POST" and form.is_valid():
         form.save()
         return redirect('admin_list')
@@ -355,4 +355,35 @@ def admin_student_list(request):
     students = Students.objects.all()
     return render(request,'admin/student/list.html',{'students':students})
 
+def admin_create_group(request):
+    model = Groups()
+    form = GroupForm(request.POST,instance=model)
+    if request.POST and form.is_valid():
+        form.save()
+        return redirect('group_list')
+    ctx = {
+        'form':form
+    }
+    return render(request,'admin/group/form.html',ctx)
 
+def admin_edit_group(request,pk):
+    model = Groups.objects.get(pk=pk)
+    form = GroupForm(request.POST or None, instance=model or None)
+    if request.POST and form.is_valid():
+        form.save()
+        return redirect('group_list')
+
+    ctx = {
+        'model':model,
+        'form':form
+    }
+    return render(request,'admin/group/form.html',ctx)
+
+def admin_delete_group(request,pk):
+    model = Groups.objects.get(pk=pk)
+    model.delete()
+    return redirect('group_list')
+
+def admin_list_group(request):
+    groups = Groups.objects.all()
+    return render(request,'admin/group/list.html',{'groups':groups})

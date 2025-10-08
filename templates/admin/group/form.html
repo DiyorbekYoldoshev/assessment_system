@@ -8,20 +8,18 @@
         <div class="section__content section__content--p30">
             <div class="container-fluid">
 
-                <!-- Title -->
                 <div class="overview-wrap">
                     {% if model %}
-                        <h2 class="title-1">Edit User</h2>
+                        <h2 class="title-1">Edit Group</h2>
                     {% else %}
-                        <h2 class="title-1">Add User</h2>
+                        <h2 class="title-1">Add Group</h2>
                     {% endif %}
                 </div>
                 <br>
 
-                <!-- User form -->
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        <strong>User Form</strong>
+                        <strong>Group Form</strong>
                     </div>
                     <div class="card-body card-block">
                         <form method="post" class="form-horizontal">
@@ -29,40 +27,22 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Username</label>
-                                        {{ form.username }}
+                                        <label>Group Name</label>
+                                        {{ form.name }}
                                     </div>
                                 </div>
-
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Full Name</label>
-                                        {{ form.full_name }}
+                                        <label>Faculty</label>
+                                        {{ form.faculty }}
                                     </div>
                                 </div>
-
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Email</label>
-                                        {{ form.email }}
+                                        <label>Kafedra</label>
+                                        {{ form.kafedra }}
                                     </div>
                                 </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Role</label>
-                                        {{ form.role }}
-                                    </div>
-                                </div>
-
-                                {% if not model %}
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Password</label>
-                                        {{ form.password }}
-                                    </div>
-                                </div>
-                                {% endif %}
                             </div>
 
                             <div class="mt-4">
@@ -72,10 +52,10 @@
                                     </button>
                                 {% else %}
                                     <button type="submit" class="btn btn-success">
-                                        <i class="zmdi zmdi-plus"></i> Add User
+                                        <i class="zmdi zmdi-plus"></i> Add Group
                                     </button>
                                 {% endif %}
-                                <a href="{% url 'admin_list' %}" class="btn btn-secondary">
+                                <a href="{% url 'group_list' %}" class="btn btn-secondary">
                                     <i class="zmdi zmdi-arrow-left"></i> Back
                                 </a>
                             </div>
